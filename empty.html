@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html style="font-size:12px;">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link href="css/schema.default.css" rel="stylesheet" />
+    <link href="css/theme/default.css" rel="stylesheet" />
+    <link href="scripts/vue-componets/vux-2/vux.min.css" rel="stylesheet" />
+    <link href="css/rich_media_content.css" rel="stylesheet" />
+    <script src="scripts/linq.min.js"></script>
+    <script src="scripts/vue.min.js"></script>
+    <script src="scripts/vue-componets/vux-2/vux.min.js"></script>
+</head>
+<body>
+    <div id="content">
+        <div style='width:150px;height:150px;'>
+            <x-circle :percent="percent1" :stroke-width="10" stroke-color="#04BE02">
+                <span>{{percent1}}</span>
+            </x-circle>
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#content",
+            components: {
+                "x-circle": vuxXCircle
+            },
+            data: {
+                percent1:67
+            },
+            methods: {
+                
+            },
+            mounted: function () {
+                var me = this;
+            }
+        });
+    </script>
+</body>
+</html>

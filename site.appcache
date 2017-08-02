@@ -1,0 +1,20 @@
+﻿CACHE MANIFEST
+# 20170724 v1.0.53.295
+css/schema.default.css
+css/theme/default.css
+css/rich_media_content.css
+css/dish.css
+scripts/linq.min.js
+scripts/parabola/index.js
+scripts/xscroll/build/standalone/xscroll.js
+scripts/xscroll/build/standalone/plugins/pullup.min.js
+scripts/xscroll/build/standalone/plugins/pulldown.min.js
+scripts/vue.min.js
+scripts/vue-componets/xscroll/index.js
+scripts/zoomview.js
+
+NETWORK:
+*
+
+FALLBACK:
+NoWiFi.html

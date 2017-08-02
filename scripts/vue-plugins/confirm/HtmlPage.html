@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../weui/dist/style/weui.min.css" rel="stylesheet" />
+    <script src="../../vue.js"></script>
+    <script src="JavaScript.js"></script>
+</head>
+<body>
+    <div>
+        <button @click="buttonClick">出来把对话框</button>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "div",
+            methods: {
+                buttonClick: function () {
+                    this.$confirm.open("被招唤出来了",
+                                        function () { alert("点击了确定"); },
+                                        function () { alert("点击了取消"); });
+                }
+            }
+        });
+        vm.$confirm.open("hello", function () { alert("点击了确定"); });
+    </script>
+</body>
+</html>

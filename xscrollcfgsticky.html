@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <title></title>
+    <script src="scripts/xscroll/build/standalone/xscroll.js"></script>
+    <script src="scripts/xscroll/build/standalone/plugins/infinite.js"></script>
+    <script src="scripts/xscroll/build/standalone/plugins/pullup.js"></script>
+    <script src="scripts/xscroll/build/standalone/plugins/pulldown.js"></script>
+    <style>
+        #scroll {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            clear: both;
+            overflow-y: auto;
+        }
+
+        [id^=xs-row-] {
+            width: 100%;
+        }
+
+        .sticky{
+            background-color:orangered;
+        }
+    </style>
+</head>
+<body>
+    <div id="scroll">
+        <div class="xs-container">
+            <div class="xs-content">
+                <div >1</div>
+                <div >2</div>
+                <div >3</div>
+                <div >4</div>
+                <div >5</div>
+                <div >6</div>
+                <div >6</div>
+                <div >7</div>
+                <div >8</div>
+                <div >9</div>
+                <div class="sticky" >10</div>
+                <div >1</div>
+                <div >2</div>
+                <div >3</div>
+                <div >4</div>
+                <div >5</div>
+                <div >6</div>
+                <div >6</div>
+                <div >7</div>
+                <div >8</div>
+                <div >9</div>
+                <div class="sticky" >10</div>
+                <div >1</div>
+                <div >2</div>
+                <div >3</div>
+                <div >4</div>
+                <div >5</div>
+                <div >6</div>
+                <div >6</div>
+                <div >7</div>
+                <div >8</div>
+                <div >9</div>
+                <div class="sticky" >10</div>
+                <div >1</div>
+                <div >2</div>
+                <div >3</div>
+                <div >4</div>
+                <div >5</div>
+                <div >6</div>
+                <div >6</div>
+                <div >7</div>
+                <div >8</div>
+                <div >9</div>
+                <div class="sticky" >10</div>
+                <div >1</div>
+                <div >2</div>
+                <div >3</div>
+                <div >4</div>
+                <div >5</div>
+                <div >6</div>
+                <div >6</div>
+                <div >7</div>
+                <div >8</div>
+                <div >9</div>
+                <div class="sticky" >10</div>
+                <div >1</div>
+                <div >2</div>
+                <div >3</div>
+                <div >4</div>
+                <div >5</div>
+                <div >6</div>
+                <div >6</div>
+                <div >7</div>
+                <div >8</div>
+                <div >9</div>
+                <div class="sticky" >10</div>
+                <div >1</div>
+                <div >2</div>
+                <div >3</div>
+                <div >4</div>
+                <div >5</div>
+                <div >6</div>
+                <div >6</div>
+                <div >7</div>
+                <div >8</div>
+                <div >9</div>
+                <div class="sticky" >10</div>
+                <div >1</div>
+                <div >2</div>
+                <div >3</div>
+                <div >4</div>
+                <div >5</div>
+                <div >6</div>
+                <div >6</div>
+                <div >7</div>
+                <div >8</div>
+                <div >9</div>
+                <div class="sticky" >10</div>
+                <div >1</div>
+                <div >2</div>
+                <div >3</div>
+                <div >4</div>
+                <div >5</div>
+                <div >6</div>
+                <div >6</div>
+                <div >7</div>
+                <div >8</div>
+                <div >9</div>
+                <div class="sticky" >10</div>
+                <div >1</div>
+                <div >2</div>
+                <div >3</div>
+                <div >4</div>
+                <div >5</div>
+                <div >6</div>
+                <div >6</div>
+                <div >7</div>
+                <div >8</div>
+                <div >9</div>
+                <div class="sticky" >10</div>
+                <div >1</div>
+                <div >2</div>
+                <div >3</div>
+                <div >4</div>
+                <div >5</div>
+                <div >6</div>
+                <div >6</div>
+                <div >7</div>
+                <div >8</div>
+                <div >9</div>
+                <div class="sticky" >10</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var xscroll = new XScroll({
+            renderTo: "#scroll",
+            scrollbarX: false,
+            lockX: true,
+            lockY: false,
+            stickyElements:".sticky"
+        });
+
+        //加载
+        var pullup = new XScroll.Plugins.PullUp({
+            upContent: "上拉加载更多",
+            downContent: "释放加载",
+            loadingContent: "加载中……",
+            bufferHeight: 0
+        });
+        pullup.on("loading", function (e) {
+            xscroll.render();
+            //loading complete
+            pullup.complete();
+        });
+        xscroll.plug(pullup);
+
+        //刷新
+        var pulldown = new XScroll.Plugins.PullDown({
+            upContent: "释放刷新",
+            downContent: "下拉刷新",
+            loadingContent: "加载中……",
+            autoRefresh: false
+        });
+        pulldown.on("loading", function (e) {
+            pulldown.reset(function () {
+                xscroll.render();
+            });
+        });
+        xscroll.plug(pulldown);
+        xscroll.render();
+    </script>
+</body>
+</html>

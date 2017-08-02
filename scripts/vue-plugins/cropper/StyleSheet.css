@@ -1,0 +1,57 @@
+﻿.cropper_wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: ease-in-out 0.4s all;
+    transform: translateY(100%);
+}
+
+    .cropper_wrap.show {
+        transform: translateY(0);
+    }
+
+    .cropper_wrap .head {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 45px;
+        background-color: #0074d9;
+        color: white;
+        line-height: 45px;
+        text-align: right;
+    }
+
+        .cropper_wrap .head .title {
+            float: left;
+            margin-left: 3px;
+        }
+
+        .cropper_wrap .head a {
+            margin-right: 3px;
+        }
+
+    .cropper_wrap .image {
+        position: absolute;
+        top: 45px;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        overflow: hidden;
+        clear: both;
+    }
+
+        .cropper_wrap .image .cropperImage {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            overflow: hidden;
+            clear: both;
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+        }

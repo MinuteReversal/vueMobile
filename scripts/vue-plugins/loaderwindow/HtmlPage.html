@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title></title>
+    <script src="/scripts/referenceCss.js"></script>
+    <script src="/scripts/referenceJs.js"></script>
+</head>
+<body>
+    <div id="demo">
+        <button class="weui_btn weui_btn_primary" @click="m1">无参调用，无返回</button>
+        <button class="weui_btn weui_btn_primary" @click="m2">有参调用，无返回</button>
+        <button class="weui_btn weui_btn_primary" @click="m3">无参调用，有返回</button>
+        <button class="weui_btn weui_btn_primary" @click="m4">有参调用，有返回</button>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#demo",
+            methods: {
+                m1: function () {
+                    this.$loaderwindow('/form.html','无参调用，无返回');
+                },
+                m2: function () {
+                    this.$loaderwindow('/form.html', { id: "1", name: "zhy", age: 32 }, { title: '有参调用，无返回', showClose:false});
+                },
+                m3: function () {
+                    var me = this;
+                    me.$loaderwindow('/form.html', '无参调用，有返回')
+                        .then(function (model) {
+                            me.$alert.open(JSON.stringify(model));
+                        })
+                        .catch(function (model) {
+                            me.$alert.open(model);
+                        });
+                },
+                m4: function () {
+                    var me = this;
+                    me.$loaderwindow('/form.html?id=123&name=zhy&age=32', { "dream": "do it" },'有参调用，有返回')
+                        .then(function (model) {
+                            me.$alert.open(JSON.stringify(model));
+                        })
+                        .catch(function (model) {
+                            me.$alert.open(model);
+                        });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

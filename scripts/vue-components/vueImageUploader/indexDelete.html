@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link href="../../weui/dist/style/weui.min.css" rel="stylesheet" />
+    <link href="../../vue-componets/vux-2/vux.min.css" rel="stylesheet" />
+    <link href="../../Font-Awesome-master/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../cropperjs-master/dist/cropper.min.css" rel="stylesheet" />
+    <link href="../../vue-plugins/cropper/StyleSheet.css" rel="stylesheet" />
+    <link href="StyleSheet.css" rel="stylesheet" />
+    <script src="../../Polyfill/toBlob/toBlob.js"></script>
+    <script src="../../cropperjs-master/dist/cropper.min.js"></script>
+    <script src="../../vue.js"></script>
+    <script src="../../vue-plugins/cropper/JavaScript.js"></script>
+    <script src="../../vue-plugins/confirm/JavaScript.js"></script>
+    <script src="JavaScript.js"></script>
+</head>
+<body>
+    <div id="view">
+        <image-uploader v-model="images" ref="iu" :handle-file="onCropperImage" :handle-click-item="onDeleteImage"></image-uploader>
+        <button @click="showData" class="weui_btn weui_btn_primary">获取数据</button>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#view",
+            components: {
+                "image-uploader": vueImageUploader
+            },
+            data: {
+                images: ["0d771f2e40e94ec384d8d592b6073b44","0d771f2e40e94ec384d8d592b6073b44"]
+            },
+            methods: {
+                getData: function () {
+                    alert(JSON.stringify(me.$data));
+                },
+                onCropperImage: function (file, callBack) {
+                    this.$cropper.open({ src: file, onYes: function (fileWraper) { callBack(fileWraper); } });
+                },
+                onDeleteImage: function (imageUploader,imageModel,index) {
+                    this.$confirm.open("确定删除", function (evt) {
+                        imageUploader.delete(index);
+                    });
+                },
+                showData: function () {
+                    alert(JSON.stringify(this.$data));
+                }
+            }
+        });
+    </script>
+</body>
+</html>

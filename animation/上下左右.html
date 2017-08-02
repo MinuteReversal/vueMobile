@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title></title>
+    <script src="/scripts/referenceCss.js"></script>
+    <script src="/scripts/referenceJs.js"></script>
+</head>
+<body>
+    <div id="demo">
+        <div>
+            <transition :enter-active-class="type.enter" :leave-active-class="type.leave">
+                <div v-if="show">
+                    hello world
+                </div>
+            </transition>
+        </div>
+        <button @click="up">上</button>
+        <button @click="right">右</button>
+        <button @click="down">下</button>
+        <button @click="left">左</button>
+        <button @click="none">无</button>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#demo",
+            data: {
+                show: false,
+                type: {
+                    enter: "",
+                    leave: ""
+                }
+            },
+            methods: {
+                up: function () {
+                    var me = this;
+                    me.type.enter = "animated slideInDown";
+                    me.type.leave = "animated slideOutUp";
+                    this.show = !this.show;
+                },
+                right: function () {
+                    var me = this;
+                    me.type.enter = "animated slideInRight";
+                    me.type.leave = "animated slideOutRight";
+                    this.show = !this.show;
+                },
+                down: function () {
+                    var me = this;
+                    me.type.enter = "animated slideInUp";
+                    me.type.leave = "animated slideOutDown";
+                    this.show = !this.show;
+                },
+                left: function () {
+                    var me = this;
+                    me.type.enter = "animated slideInLeft";
+                    me.type.leave = "animated slideOutLeft";
+                    this.show = !this.show;
+                },
+                none: function () {
+                    var me = this;
+                    me.type.enter = "";
+                    me.type.leave = "";
+                    this.show = !this.show;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,416 @@
+﻿<!DOCTYPE html>
+<html style="font-size:12px;">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link href="css/schema.default.css" rel="stylesheet" />
+    <link href="css/theme/default.css" rel="stylesheet" />
+    <link href="css/rich_media_content.css" rel="stylesheet" />
+    <link href="css/dish.css" rel="stylesheet" />
+    <script src="scripts/linq.min.js"></script>
+    <script src="scripts/vue.min.js"></script>
+    <script src="scripts/xscroll/build/standalone/xscroll.min.js"></script>
+</head>
+<body>
+    <div id="dish">
+        <header>
+            <nav>
+                <i class="icon icon-back"></i>
+                <span></span>
+                <i class="icon icon-order"></i>
+            </nav>
+            <section>
+                <div class="shop" v-if="s = shop">
+                    <div class="shop-logo">
+                        <img :src="s.logo" />
+                    </div>
+                    <div class="shop-info padding-left-l clear">
+                        <section class="shop-name text-overflow-ellipsis">
+                            {{s.name}}
+                        </section>
+                        <section class="start">
+                            <div class="saled">
+                                <span>月售{{s.sale}}单</span>
+                                <span class="margin-left-m">人均&yen;{{s.averageMoney}}元</span>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="index-moneylimit">
+                                <span>&yen;{{s.sendMoney}}起送</span>
+                                <span>配送费约&yen;{{s.deliverMoney}}</span>
+                                <span>满&yen;{{s.deliverMoneyFree}}免配送费</span>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div v-show="s.activities.length" class="activities" :style="{'height':activitiesHeight+'rem'}">
+                    <div @click="onToggleActivity" class="activities-count">
+                        {{s.activities.length}}个活动
+                        <img src="images/icons/arrow-down.png" class="arrow" v-bind:class="{'expand':expand}" />
+                    </div>
+                    <div v-for="a in s.activities">
+                        <span class="activity-icon activity-icon-red" v-if="a.type===enumActivityType.full">满</span>
+                        <span class="activity-icon activity-icon-red" v-else-if="a.type===enumActivityType.off">折</span>
+                        <span class="activity-icon activity-icon-green" v-else-if="a.type===enumActivityType.new">新</span>
+                        <span class="activity-icon activity-icon-orange" v-else-if="a.type===enumActivityType.special">特</span>
+                        {{a.name}}
+                    </div>
+                </div>
+            </section>
+        </header>
+        <div class="order">
+            <aside id="categories" class="menu cursor_pointer overflow-scrolling" ref="categories">
+                <div v-for="m in menu" @click="onSelectMenu(m)" v-bind:class="{'active':selectMenu==m}" class="item">
+                    <div v-if="getBuyCount(m.dishes)" class="countDish">{{getBuyCount(m.dishes)}}</div>
+                    {{m.title}}
+                </div>
+                <div class="footer-height"></div>
+            </aside>
+            <section id="products" class="list overflow-scrolling" ref="products">
+                <div class="xs-container">
+                    <div class="xs-content">
+                        <div v-for="m in menu">
+                            <div :id="m.id" class="text-overflow-ellipsis sticky">
+                                <span class="title padding-left-m font-weight-blder">{{m.title}}</span>
+                                <span class="subtitle margin-left-l">{{m.subtitle}}</span>
+                            </div>
+                            <div v-for="d in m.dishes" class="dish padding-m">
+                                <div class="image">
+                                    <img :src="d.src" />
+                                </div>
+                                <div class="detail padding-left-l">
+                                    <div class="name font-size-m font-weight-blder">{{d.name}}</div>
+                                    <div class="sale">月售{{d.sale}}单</div>
+                                    <div>
+                                        <span v-if="d.off!==''" class="off float-left">{{d.off}}</span>
+                                        <span v-if="d.tip!==''" class="tip float-left">{{d.tip}}</span>
+                                    </div>
+                                    <div class="clear price">
+                                        <span class="font-size-s color-red font-weight-blder">
+                                            &yen;<span class="font-size-xl">{{d.price}}</span>
+                                        </span>
+                                        <span class="margin-left-m text-decoration-line-through font-weight-blder">&yen;{{d.discounted}}</span>
+                                        <span class="cartbutton">
+                                            <span v-show="d.buy" @click="onDelete(d)" class="minus font-weight-blder cursor_pointer user-select-none"></span>
+                                            <span v-show="d.buy">{{d.buy}}</span>
+                                            <span @click="onAdd(d)" class="plus font-weight-blder cursor_pointer user-select-none"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer-height"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div v-bind:class="{showAnimation:showMaskAnimation}" class="mask" @transitionend="onMaskHide" @click="closeCart"></div>
+        <footer class="pay footer-height">
+            <div class="cartview" v-bind:class="{show:showCart}">
+                <section class="cart">
+                    <div class="header padding-m font-size-xl text-overflow-ellipsis">购物车<span class="margin-top-bottom-m font-size-m float-right" @click="clearCart">清空</span> </div>
+                    <div class="cartlist padding-left-l overflow-scrolling">
+                        <template v-for="m in menu">
+                            <template v-for="d in m.dishes">
+                                <div v-if="d.buy" class="item">
+                                    <span class="name text-overflow-ellipsis font-size-x">{{d.name}}</span>
+                                    <span class="money text-align-right font-size-s color-red font-weight-blder">&yen;<span class="font-size-m">{{(d.buy*d.price).toFixed(2)}}</span></span>
+                                    <span class="cartbutton margin-right-l">
+                                        <span @click="onDelete(d)" class="minus font-size-m font-weight-blder cursor_pointer user-select-none"></span>
+                                        <span>{{d.buy}}</span>
+                                        <span @click="onAdd(d)" class="plus font-size-m font-weight-blder cursor_pointer user-select-none"></span>
+                                    </span>
+                                </div>
+                            </template>
+                        </template>
+                    </div>
+                </section>
+                <div class="footer-height"></div>
+            </div>
+            <div class="paybox">
+                <div class="car">
+                    <div class="caricon">
+                        <div class="cariconborder" v-bind:class="{'addToCart':playAddToCart,'disable':!enableCart}" @animationend="onAnimationend" @click="onToggleCart">
+                            <img src="images/icons/u422.png" />
+                        </div>
+                        <div v-show="enableCart" class="cartCount">{{cartCount}}</div>
+                    </div>
+                    <div class="payinfo">
+                        <div class="money">合计：&yen;{{totalPay.toFixed(2)}}</div>
+                        <div class="deliver">
+                            配送费：&yen;3.00
+                        </div>
+                    </div>
+                    <div class="btnPay text-align-center">
+                        去结算
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script>
+        var enumActivityType = { "full": "full", "off": "off", "new": "new", "special": "special" };
+        var vm = new Vue({
+            el: "#dish",
+            data: {
+                productsScroller: null,
+                expand: false,
+                activitiesHeight: 1.5,
+                selectMenu: null,
+                playAddToCart: false,
+                showMask: false,
+                showMaskBlok: false,
+                showMaskAnimation: false,
+                showCart: false,
+                shop: {
+                    name: "棒约翰比萨（昆明顺城店）", logo: "images/u249.png", stars: 5, sale: 560, sendMoney: 20, deliverMoney: 3, deliverMoneyFree: 70, averageMoney: 36,
+                    activities: [
+                        { type: enumActivityType.full, name: "满48减5" },
+                        { type: enumActivityType.off, name: "芝士比萨标准装---品质比萨5折享" },
+                        { type: enumActivityType.new, name: "满新用户下单立减17.0元减5" },
+                        { type: enumActivityType.off, name: "海陆香鲜标准装---美味再现7折享" },
+                        { type: enumActivityType.off, name: "就酱紫肉嘟嘟标准装---就酱紫6折享" },
+                        { type: enumActivityType.special, name: "薯你最棒餐" },
+                        { type: enumActivityType.special, name: "德式酸菜猪肘比萨，下单立减18元" },
+                        { type: enumActivityType.special, name: "玫瑰心意餐，下单立减26元" }
+                    ]
+                },
+                menu: [
+                    {
+                        id: "1",
+                        title: "热销榜",
+                        subtitle: "大家喜欢吃，才叫真好吃。",
+                        dishes: [
+                            { name: "芝士比萨标准装 (9寸）", src: "images/u461.png", sale: 124, tip: "每单限1份优惠", off: "5折", price: 34, discounted: 34, buy: 0 },
+                            { name: "榴莲芝士条个人装（6寸）", src: "images/83dd32910ea19f839140dc1d79462png.png", sale: 96, tip: "", off: "", price: 28, discounted: 34, buy: 0 },
+                            { name: "鲜香拼盘", src: "images/78bc8732096ac85d72b146d1f6117png.png", sale: 48, tip: "", off: "", price: 39, discounted: 34, buy: 0 },
+                            { name: "超级棒约翰个人装（6寸）", src: "images/268065fa20bd05b75b35ba169518dpng.png", sale: 35, tip: "", off: "", price: 39, discounted: 34, buy: 0 },
+                            { name: "榴莲蛋挞（1个）", src: "images/3751ad8de083955e54c21206cf6b6png.png", sale: 35, tip: "", off: "", price: 7.5, discounted: 34, buy: 0 },
+                            { name: "就酱紫肉嘟嘟标准装（9寸）", src: "images/cb7bcbff6f86bbf9a2906fb7fd6bfpng.png", sale: 35, tip: "", off: "", price: 71, discounted: 34, buy: 0 }
+                        ]
+                    },
+                    {
+                        id: "2",
+                        title: "新品推荐",
+                        subtitle: "",
+                        dishes: [
+                            { name: "德式酸菜猪肘薄底大装（12寸）", src: "images/1088abe8a34fbae37803063589c17jpeg.jpg", sale: 35, tip: "", off: "", price: 73, discounted: 34, buy: 0 },
+                            { name: "鸡肉BBQ个人装（6寸）", src: "images/11005fb36cf123844112efd62419apng.png", sale: 35, tip: "", off: "", price: 29, discounted: 34, buy: 0 },
+                            { name: "夏威夷阳光个人装（6寸）", src: "images/5a9b9d3c143ea9345c20d6e358717png.png", sale: 35, tip: "", off: "", price: 35, discounted: 34, buy: 0 },
+                            { name: "超级棒约翰个人装（6寸）", src: "images/268065fa20bd05b75b35ba169518dpng.png", sale: 35, tip: "", off: "", price: 35, discounted: 34, buy: 0 },
+                            { name: "薯你最棒套餐", src: "images/2e2a9768ec293e4e4b7e43eeb2d38jpeg.jpg", sale: 3, tip: "限1份", off: "", price: 73, discounted: 34, buy: 0 }
+                        ]
+                    },
+                    {
+                        id: "3",
+                        title: "美味小食",
+                        subtitle: "",
+                        dishes: [
+                            { name: "鲜香拼盘", src: "images/78bc8732096ac85d72b146d1f6117png.png", sale: 35, tip: "", off: "", price: 39, discounted: 34, buy: 0 },
+                            { name: "缤纷烤翅拼盘", src: "images/83e0abd10c569ebc4543b7693ef57png.png", sale: 35, tip: "", off: "", price: 42, discounted: 34, buy: 0 },
+                            { name: "榴莲蛋挞（1个）", src: "images/3751ad8de083955e54c21206cf6b6png.png", sale: 35, tip: "", off: "", price: 7.5, discounted: 34, buy: 0 },
+                            { name: "原味蛋挞 （1个）", src: "images/359e283348d3fba59d73adbb22e73png.png", sale: 35, tip: "", off: "", price: 7.5, discounted: 34, buy: 0 },
+                            { name: "奥尔良风味烤翅（4个）", src: "images/81539efeb4dbeeefde59c4ce0878bpng.png", sale: 3, tip: "限1份", off: "", price: 7.5, discounted: 34, buy: 0 }
+                        ]
+                    },
+                    {
+                        id: "4",
+                        title: "意面焗饭",
+                        subtitle: "",
+                        dishes: [
+                            { name: "鸡肉培根意面", src: "images/587d86448218822b6247f64eadeb8png.png", sale: 35, tip: "", off: "", price: 28, discounted: 34, buy: 0 },
+                            { name: "意式红烩牛肉焗饭", src: "images/cfb34612c468248b4b256dda2b376png.png", sale: 35, tip: "", off: "", price: 32, discounted: 34, buy: 0 },
+                            { name: "柠檬香草鲜虾意面", src: "images/9c93bb390b46c1850f158447211c5png.png", sale: 35, tip: "", off: "", price: 32, discounted: 34, buy: 0 },
+                            { name: "卡萨布兰卡烤鸡肉饭", src: "images/3d28a73d35915c8c88dba96328f05png.png", sale: 35, tip: "", off: "", price: 32, discounted: 34, buy: 0 },
+                            { name: "马可波罗意面", src: "images/cc4cdef6be78fa58f81af680556f2png.png", sale: 3, tip: "限1份", off: "", price: 32, discounted: 34, buy: 0 },
+                            { name: "曼哈顿金枪鱼意面", src: "images/3e76eb020c895af1f6a6588594ae9png.png", sale: 3, tip: "限1份", off: "", price: 35, discounted: 34, buy: 0 }
+                        ]
+                    },
+                    {
+                        id: "5",
+                        title: "传统比萨",
+                        subtitle: "",
+                        dishes: [
+                            { name: "榴莲芝士条个人装（6寸）", src: "images/83dd32910ea19f839140dc1d79462png.png", sale: 35, tip: "", off: "", price: 28, discounted: 34, buy: 0 },
+                            { name: "芝士条个人装（6寸）", src: "images/6282ca968779ac631ceeb285b0235png.png", sale: 35, tip: "", off: "", price: 24, discounted: 34, buy: 0 },
+                            { name: "意式萨拉米标准装（9寸）", src: "images/9c93bb390b46c1850f158447211c5png.png", sale: 35, tip: "", off: "", price: 39, discounted: 34, buy: 0 },
+                            { name: "培根青豆标准装（9寸）", src: "images/56a6adbcb34a74ea5d51a32d9b5f2png.png", sale: 35, tip: "", off: "", price: 39, discounted: 34, buy: 0 },
+                            { name: "海岛风情标准装（9寸）", src: "images/f252db35ea063bd07dd20e7e7de23png.png", sale: 3, tip: "限1份", off: "", price: 39, discounted: 34, buy: 0 },
+                            { name: "田园素食标准装（9寸）", src: "images/5da741dfef73febdbfb08d65b7045png.png", sale: 3, tip: "限1份", off: "", price: 68, discounted: 34, buy: 0 }
+                        ]
+                    },
+                    {
+                        id: "6",
+                        title: "手拍薄底",
+                        subtitle: "",
+                        dishes: [
+                            { name: "经典牛肉蘑菇大装（12寸）", src: "images/5a292b525b88d220f40a14e846115png.png", sale: 21, tip: "", off: "", price: 59, discounted: 34, buy: 0 },
+                            { name: "鸡肉腊肠大装（12寸）", src: "images/8e66c2b9e7a921ad6d982e01eaac1png.png", sale: 5, tip: "", off: "", price: 24, discounted: 34, buy: 0 },
+                            { name: "汉堡牛肉大装（12寸）", src: "images/9977b38eae586de7c46db8679cd8epng.png", sale: 9, tip: "", off: "", price: 59, discounted: 34, buy: 0 },
+                            { name: "西西里熏肉大装（12寸）", src: "images/558ef9ae2d9ec564efee6d56020aepng.png", sale: 3, tip: "", off: "", price: 91, discounted: 34, buy: 0 },
+                            { name: "浓情培根芝士大装（12寸）", src: "images/9f0fd2f9b700550c436fffa9edef9png.png", sale: 5, tip: "限1份", off: "", price: 91, discounted: 34, buy: 0 },
+                            { name: "墨西哥风味牛肉大装（12寸）", src: "images/9fb5c7e4a5dc6fb9f3fda7723de9epng.png", sale: 10, tip: "限1份", off: "7折", price: 63.7, discounted: 34, buy: 0 }
+                        ]
+                    },
+                    {
+                        id: "7",
+                        title: "卷边比萨",
+                        subtitle: "",
+                        dishes: [
+                            { name: "榴莲芝士条个人装（6寸）", src: "images/83dd32910ea19f839140dc1d79462png.png", sale: 35, tip: "", off: "", price: 28, discounted: 34, buy: 0 },
+                            { name: "芝士条个人装（6寸）", src: "images/6282ca968779ac631ceeb285b0235png.png", sale: 35, tip: "", off: "", price: 24, discounted: 34, buy: 0 },
+                            { name: "意式萨拉米标准装（9寸）", src: "images/9c93bb390b46c1850f158447211c5png.png", sale: 35, tip: "", off: "", price: 39, discounted: 34, buy: 0 },
+                            { name: "培根青豆标准装（9寸）", src: "images/56a6adbcb34a74ea5d51a32d9b5f2png.png", sale: 35, tip: "", off: "", price: 39, discounted: 34, buy: 0 },
+                            { name: "海岛风情标准装（9寸）", src: "images/f252db35ea063bd07dd20e7e7de23png.png", sale: 3, tip: "限1份", off: "", price: 39, discounted: 34, buy: 0 },
+                            { name: "田园素食标准装（9寸）", src: "images/5da741dfef73febdbfb08d65b7045png.png", sale: 3, tip: "限1份", off: "", price: 68, discounted: 34, buy: 0 }
+                        ]
+                    },
+                    {
+                        id: "8",
+                        title: "缤纷饮品",
+                        subtitle: "",
+                        dishes: [
+                            { name: "可口可乐（330ml）", src: "images/0eb7189be45c0df10e20c7e96f94cpng.png", sale: 3, tip: "", off: "", price: 7, discounted: 34, buy: 0 },
+                            { name: "雪碧（330ml）", src: "images/e1befda503d88a0dc278373858772png.png", sale: 35, tip: "", off: "", price: 24, discounted: 34, buy: 0 },
+                            { name: "草莓果饮（380ml）", src: "images/33eaa723ae36fccfd08a6f060426fpng.png", sale: 1, tip: "", off: "", price: 39, discounted: 34, buy: 0 },
+                            { name: "经典冻奶茶（380ml）", src: "images/56a6adbcb34a74ea5d51a32d9b5f2png.png", sale: 3, tip: "", off: "", price: 12, discounted: 34, buy: 0 },
+                            { name: "可口可乐（1.25L）", src: "images/31e2e324507e1e530051ef43b85f9png.png", sale: 3, tip: "", off: "", price: 12, discounted: 34, buy: 0 },
+                            { name: "金桔柠檬茶（380ml）", src: "images/d1a7babfb758196bab0a91774ae7apng.png", sale: 3, tip: "", off: "", price: 15, discounted: 34, buy: 0 }
+                        ]
+                    },
+                    {
+                        id: "9",
+                        title: "棒家秘方",
+                        subtitle: "",
+                        dishes: [
+                            { name: "辣椒", src: "images/d694f0eaddf809baf2a3d7217b895png.png", sale: 7, tip: "", off: "", price: 3, discounted: 34, buy: 0 },
+                            { name: "蒜香酱", src: "images/00844dafea4a17da471e2db1d52a3png.png", sale: 23, tip: "", off: "", price: 3, discounted: 34, buy: 0 }
+                        ]
+                    }
+                ]
+            },
+            methods: {
+                getBuyCount: function (dishes) {
+                    return Enumerable.From(dishes).Sum(function (x) { return x.buy; });
+                },
+                onSelectMenu: function (model) {
+                    //location.href = "#" + model.id;
+                    this.selectMenu = model;
+                },
+                onAdd: function (model) {
+                    model.buy++;
+                    this.onAddAnimation();
+
+                },
+                onAddAnimation: function () {
+                    var me = this;
+                    me.playAddToCart = true;
+                },
+                onAnimationend: function () {
+                    this.playAddToCart = false;
+                },
+                onDelete: function (model) {
+                    if (model.buy > 0) {
+                        model.buy--;
+                    }
+                    if (this.cartCount === 0) this.closeCart();
+                },
+                onToggleActivity: function () {
+                    this.expand = !this.expand;
+                    if (this.expand)
+                        this.activitiesHeight = 1.5 * this.shop.activities.length;
+                    else {
+                        this.activitiesHeight = 1.5;
+                    }
+                },
+                onMaskHide: function () {
+                    if (!this.showMask) {
+                        this.$el.querySelector(".mask").style.display = "none";
+                    }
+                },
+                onToggleCart: function () {
+                    if (this.showCart) {
+                        this.closeCart();
+                    }
+                    else {
+                        this.openCart();
+                    }
+                },
+                openCart: function () {
+                    if (!this.enableCart) return;
+                    this.showMask = true;
+                    this.showCart = true;
+                },
+                closeCart: function () {
+                    this.showMask = false;
+                    this.showCart = false;
+                },
+                clearCart: function () {
+                    this.menu.forEach(function (m) {
+                        m.dishes.forEach(function (d) {
+                            d.buy = 0;
+                        })
+                    });
+                    this.closeCart();
+                }
+            },
+            watch: {
+                "showMask": function (val, oldval) {
+                    var me = this;
+                    if (val) {
+                        me.$el.querySelector(".mask").style.display = "block";
+                        me.$nextTick(function () {
+                            me.showMaskAnimation = true;
+                        });
+                    }
+                    else {
+                        me.showMaskAnimation = false;
+                    }
+                }
+            },
+            computed: {
+                totalPay: function () {
+                    //统计订单价格
+                    return Enumerable.From(this.menu).Sum(function (x) {
+                        //有购买数
+                        return Enumerable.From(x.dishes).Where(function (y) {
+                            return y.buy;
+                        }).Sum(function (y) {
+                            //统计价格
+                            return y.buy * y.price;
+                        });
+                    });
+                },
+                cartCount: function () {
+                    //统计订单价格
+                    return Enumerable.From(this.menu).Sum(function (x) {
+                        //有购买数
+                        return Enumerable.From(x.dishes).Sum(function (y) {
+                            //统计价格
+                            return y.buy;
+                        });
+                    });
+                },
+                enableCart: function () {
+                    return this.cartCount > 0;
+                }
+            },
+            mounted: function () {
+                var me = this;
+                me.productsScroller = new XScroll({
+                    renderTo: me.$refs.products,
+                    scrollbarX: false,
+                    lockX: true,
+                    lockY: false
+                });
+                me.productsScroller.render();
+            }
+        });
+    </script>
+</body>
+</html>

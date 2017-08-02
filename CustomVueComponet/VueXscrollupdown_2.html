@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title></title>
+    <script src="../scripts/vue.min.js"></script>
+    <script src="../scripts/xscroll/build/standalone/xscroll.min.js"></script>
+    <script src="../scripts/xscroll/build/standalone/plugins/pullup.min.js"></script>
+    <script src="../scripts/xscroll/build/standalone/plugins/pulldown.min.js"></script>
+    <script src="../scripts/vue-componets/xscroll/index.js"></script>
+    <style>
+        body {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: 0;
+        }
+
+        #scroll {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="demo">
+        <xscroll id="scroll" ref="xs" pullup pulldown @pullup-loading="onPullupLoading" @pulldown-loading="onPulldownLoading">
+            <template v-for="i in Total">
+                <div v-if="i%10===0" class="sticky" style="background-color:red;">sticky{{i}}</div>
+                <div v-else>{{i}}</div>
+            </template>
+        </xscroll>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#demo",
+            data: {
+                Total: 100
+            },
+            components: {
+                "xscroll": vueXscroll
+            },
+            methods: {
+                onPullupLoading: function (fnComplete) {
+                    var me = this;
+                    setTimeout(function () {
+                        me.Total += 10;
+                        fnComplete();
+                    }, 1000);
+                },
+                onPulldownLoading: function (fnComplete) {
+                    var me = this;
+                    setTimeout(function () {
+                        me.Total = 100;
+                        fnComplete();
+                    }, 1000);
+                },
+            },
+            mounted: function () {
+
+            }
+        });
+    </script>
+</body>
+</html>

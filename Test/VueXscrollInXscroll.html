@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title></title>
+    <script src="scripts/vue.min.js"></script>
+    <script src="scripts/xscroll/build/standalone/xscroll.min.js"></script>
+    <style>
+        body {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: 0;
+        }
+
+        #scroller {
+            position: absolute;
+            top: 300px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: darkgray;
+        }
+
+        .staticHeight {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <div id="scroller" ref="scroller">
+        <div class="xs-container">
+            <div class="xs-content">
+                <div class="staticHeight" v-for="i in 100">{{i}}</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#scroller",
+            data: {
+                xscroll: null,
+            },
+            mounted: function () {
+                var me = this;
+                me.xscroll = new XScroll({
+                    renderTo: "#scroller",
+                    scrollbarX: false,
+                    lockX: true,
+                    lockY: false
+                });
+                me.xscroll.render();
+            }
+        });
+    </script>
+</body>
+</html>

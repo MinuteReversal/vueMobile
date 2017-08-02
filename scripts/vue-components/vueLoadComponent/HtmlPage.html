@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title></title>
+    <script src="../../referenceCss.js"></script>
+    <script src="../../referenceJs.js"></script>
+</head>
+<body>
+    <div id="demo">
+        <load-component url="/form.html" :parameters="{id:1}" ref="lc"></load-component>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#demo",
+            components: {
+                "load-component": vueLoadComponent
+            },
+            data: {}
+        });
+    </script>
+</body>
+</html>

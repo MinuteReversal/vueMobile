@@ -1,0 +1,169 @@
+.msite-shop-center[data-v-65e2dd3c]{position:fixed;width:100%;top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%)}
+body {
+    background-color: #EEEEEE;
+}
+
+header {
+    display: flex;
+    height: 45px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: rgba(218, 39, 23, 1);
+    padding: 7px 10px 10px 10px;
+}
+
+    header > form {
+        flex: auto;
+    }
+
+.icon {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 100% 100%;
+}
+
+.icon-order {
+    background-image: url("images/icons/u353.png");
+}
+
+.search {
+    width: 100%;
+    display: block;
+    text-align: center;
+    height: 30px;
+    border-radius: 15px;
+    color: #333;
+}
+
+.categories {
+    overflow: hidden;
+}
+
+    .categories img {
+        width: 100px;
+        height: 100px;
+    }
+
+.index-moneylimit > span::before {
+    color: #ddd;
+    content: "/";
+}
+
+.index-moneylimit > span:first-child::before {
+    content: "";
+}
+
+.index-title {
+    font-weight: 600;
+    border-top: 1px solid #eee;
+}
+
+.index-line {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+
+.index-rateWrap {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.index-title {
+    margin-top: 10px;
+    margin-bottom: 0;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+    font-weight: 600;
+    border-top: 1px solid #eee;
+    padding-left: 10px;
+    line-height: 40px;
+}
+
+
+.shop {
+    display: flex;
+    position: relative;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+    color: #666;
+    background-color: white;
+}
+
+.shop-logo {
+    padding: 10px;
+    width: 120px;
+    height: 120px;
+}
+
+    .shop-logo img {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+.shop-info {
+    flex: 1;
+}
+
+.shop-name {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    max-width: 5rem;
+    color: #333;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: 0.4rem;
+    line-height: 0.42rem;
+}
+
+.activities {
+    position: relative;
+    display: block;
+    clear: both;
+    line-height: 30px;
+}
+
+.activities-count {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+}
+
+.activity-icon {
+    padding: 0px 3px;
+    border-radius: 5px;
+    color: white;
+}
+
+.activity-icon-red {
+    background-color: #DA2717;
+}
+
+.activity-icon-green {
+    background-color: #00CC66;
+}
+
+.activity-icon-orange {
+    background-color: #FF9933;
+}

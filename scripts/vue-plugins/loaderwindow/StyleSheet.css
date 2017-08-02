@@ -1,0 +1,32 @@
+﻿.loaderwindow {
+}
+
+    .loaderwindow .weui-dialog {
+        border-radius: 10px;
+    }
+
+    .loaderwindow .header {
+        color: white;
+        background-color: #C7000B;
+        line-height: 40px;
+    }
+
+        .loaderwindow .header .title {
+            padding-right: 30px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 0 20px 0 10px;
+        }
+
+        .loaderwindow .header .close {
+            position: absolute;
+            right: 10px;
+            top: 12px;
+            width: 16px;
+            height: 16px;
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            background-size: 100% 100%;
+            background-image: url("data:image/svg+xml;base64,77u/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgYmFzZVByb2ZpbGU9ImZ1bGwiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+DQoJPHBhdGggZD0iTSAwIDMwIEwgMzAgMCBNIDAgMCBMIDMwIDMwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iNCIgLz4NCjwvc3ZnPg==");
+        }

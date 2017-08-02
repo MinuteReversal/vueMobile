@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title></title>
+    <script src="/scripts/referenceCss.js"></script>
+    <script src="/scripts/referenceJs.js"></script>
+</head>
+<body>
+    <div id="demo" style="background-color:white;overflow:hidden;">
+        <div>层级{{level}}</div>
+        <button class="weui_btn weui_btn_primary" @click="m1">右</button>
+        <button class="weui_btn weui_btn_primary" @click="m2">左</button>
+        <button class="weui_btn weui_btn_primary" @click="m3">上</button>
+        <button class="weui_btn weui_btn_primary" @click="m4">下</button>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#demo",
+            data: {
+                level: 1
+            },
+            methods: {
+                m1: function () {
+                    var me = this;
+                    me.$loaderside('/side.html', { "level": this.level + 1 }, "right").then(function (model) { me.$alert.open(JSON.stringify(model)); });
+                },
+                m2: function () {
+                    var me = this;
+                    me.$loaderside('/side.html', { "level": this.level + 1 }, "left").then(function (model) { me.$alert.open(JSON.stringify(model)); });
+                },
+                m3: function () {
+                    var me = this;
+                    me.$loaderside('/side.html', { "level": this.level + 1 }, "top").then(function (model) { me.$alert.open(JSON.stringify(model)); });
+                },
+                m4: function () {
+                    var me = this;
+                    me.$loaderside('/side.html', { "level": this.level + 1 }, 'bottom').then(function (model) { me.$alert.open(JSON.stringify(model)); });
+                },
+                m5: function () {
+                    var me = this;
+                    me.$loaderside('/side.html', { "level": this.level + 1 }, 'none').then(function (model) { me.$alert.open(JSON.stringify(model)); });
+                }
+            },
+            mounted: function () {
+                var level = $f.getQueryString("level",this._uid);
+                if (level) {
+                    this.level = parseInt(level);
+                }
+                
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link href="../../vue-componets/vux-2/vux.min.css" rel="stylesheet" />
+    <link href="../../Font-Awesome-master/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../cropperjs-master/dist/cropper.min.css" rel="stylesheet" />
+    <link href="StyleSheet.css" rel="stylesheet" />
+    <script src="../../Polyfill/toBlob/toBlob.js"></script>
+    <script src="JavaScript.js"></script>
+    <script src="../../cropperjs-master/dist/cropper.min.js"></script>
+    <script src="../../vue.js"></script>
+    <script src="JavaScript.js"></script>
+</head>
+<body>
+    <div>
+        <input type="file" @change="ButtonClick" />
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "div",
+            methods: {
+                ButtonClick: function (evt) {
+                    var me = this;
+                    me.$cropper.open({ src: evt.target.files[0], onYes: function (blob) { alert(blob); } });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

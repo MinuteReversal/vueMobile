@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title></title>
+    <script src="/scripts/referenceCss.js"></script>
+    <script src="/scripts/referenceJs.js"></script>
+</head>
+<body>
+    <div id="demo">
+        <!--<link href="https://unpkg.com/animate.css@3.5.1/animate.min.css" rel="stylesheet" type="text/css">-->
+        <div id="example-3">
+            <button @click="show = !show">
+                Toggle render
+            </button>
+            <transition name="custom-classes-transition"
+                        enter-active-class="animated tada"
+                        leave-active-class="animated bounceOutRight">
+                <p v-if="show">hello</p>
+            </transition>
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#demo",
+            data: {
+                show: false
+            }
+        });
+    </script>
+</body>
+</html>

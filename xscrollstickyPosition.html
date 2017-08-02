@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <title></title>
+    <script src="scripts/xscroll/build/standalone/xscroll.js"></script>
+    <script src="scripts/xscroll/build/standalone/plugins/infinite.js"></script>
+    <script src="scripts/xscroll/build/standalone/plugins/pullup.js"></script>
+    <script src="scripts/xscroll/build/standalone/plugins/pulldown.js"></script>
+    <style>
+        body {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: 0;
+        }
+
+        #scroll {
+            position: absolute;
+            top: 30%;
+            right: 0;
+            bottom: 20%;
+            left: 0;
+        }
+
+        [id^=xs-row-] {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="template" style="display:none;">
+        <div class="xs-row"></div>
+    </div>
+    <div id="scroll">
+        <div class="xs-container">
+            <div class="xs-content">
+            </div>
+        </div>
+    </div>
+    <script>
+        var data = '[{ "data": { "num": 1 },"recycled":false, "style": { "height": 80 } }, { "data": { "num": 2 }, "recycled":false, "style": { "height": 80 } }, { "data": { "num": 3 }, "recycled":false, "style": { "height": 80 } }, { "data": { "num": 4 }, "recycled":false, "style": { "height": 80 } }, { "data": { "num": 5 }, "recycled":false, "style": { "height": 80 } }, { "data": { "num": 6 }, "recycled":false, "style": { "height": 80 } }, { "data": { "num": 6 }, "recycled":false, "style": { "height": 80 } }, { "data": { "num": 7 }, "recycled":false, "style": { "height": 80 } }, { "data": { "num": 8 }, "recycled":false, "style": { "height": 80 } }, { "data": { "num": 9 }, "recycled":false, "style": { "height": 80 } }, { "data": { "num": 10 }, "recycled":false, "className": "sticky","style": { "height": 80,"backgroundColor":"red","position": "sticky","z-index": 100 } }]';
+
+        var xscroll = new XScroll({
+            renderTo: "#scroll",
+            scrollbarX: false,
+            lockX: true,
+            lockY: false
+        });
+
+        //内容生成器
+        var infinite = new XScroll.Plugins.Infinite({
+            infiniteElements: "#template .xs-row",
+            renderHook: function (el, data) {
+                el.innerText = data.data.num;
+            }
+        });
+        xscroll.plug(infinite);
+
+        //加载
+        var pullup = new XScroll.Plugins.PullUp({
+            upContent: "上拉加载更多",
+            downContent: "释放加载",
+            loadingContent: "加载中……",
+            bufferHeight: 0
+        });
+        pullup.on("loading", function (e) {
+            infinite.append(0, JSON.parse(data));
+            xscroll.render();
+            //loading complete
+            pullup.complete();
+        });
+        xscroll.plug(pullup);
+
+        //刷新
+        var pulldown = new XScroll.Plugins.PullDown({
+            upContent: "释放刷新",
+            downContent: "下拉刷新",
+            loadingContent: "加载中……",
+            autoRefresh: false
+        });
+        pulldown.on("loading", function (e) {
+            infinite.append(0, JSON.parse(data));
+            pulldown.reset(function () {
+                xscroll.render();
+            });
+        });
+        xscroll.plug(pulldown);
+
+        infinite.append(0, JSON.parse(data));
+        xscroll.render();
+    </script>
+</body>
+</html>

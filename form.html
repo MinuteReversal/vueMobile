@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title></title>
+    <script src="/scripts/referenceCss.js"></script>
+    <script src="/scripts/referenceJs.js"></script>
+</head>
+<body>
+    <div id="demo" style="background-color:white;">
+        <div>
+            传入模型
+            <div v-html="inputModel"></div>
+        </div>
+        <div class="col-6">
+            <button class="weui_btn weui_btn_default" @click="$emit('cancel')">取消</button>
+        </div>
+        <div class="col-6">
+            <button class="weui_btn weui_btn_primary" @click="confirm">确定</button>
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#demo",
+            data: {
+                inputModel: ""
+            },
+            methods: {
+                getModelInfo: function (model) {
+                    var s = [];
+                    for (var property in model) {
+                        s.push(property + ":" + model[property]);
+                    }
+                    this.inputModel = s.join("<br/>");
+                },
+                confirm: function () {
+                    this.$emit('confirm', this.$data);
+                }
+            },
+            mounted: function () {
+                var model = $f.getQueryStringObject(this._uid);
+                this.getModelInfo(model);
+            }
+        });
+    </script>
+</body>
+</html>

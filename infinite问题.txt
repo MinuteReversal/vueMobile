@@ -1,0 +1,21 @@
+1、如何生成节点
+      xscroll.container.style[_.height] = containerSize + 'px';
+
+      xscroll.content.style[_.height] = containerSize + 'px';
+      self.xscroll.content.appendChild(el);
+	  _.height关联何处
+	  xscroll.render()解决插入内容高度问题
+
+2、如何计算可滚动高度
+ln:875 _computeDomPositions
+ln:898 pos += size;
+累加子元素的高度
+
+3、如何sticky
+ln:978 .xs-sticky-handler
+
+4、如何判断滚动
+xscroll.on('scroll');
+xscroll.on('tap panstart pan panend')
+
+5、sticky 非使用infinite组件下判断为全局高度。ln:74 getStickiesPos

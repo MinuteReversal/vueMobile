@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link href="css/schema.default.css" rel="stylesheet" />
+    <link href="css/theme/default.css" rel="stylesheet" />
+    <link href="css/shop.css" rel="stylesheet" />
+    <link href="css/rich_media_content.css" rel="stylesheet" />
+    <script src="scripts/vue.min.js"></script>
+</head>
+<body>
+    <div id="shop">
+        <header>
+            <form>
+                <input type="search" class="search text-align-center" placeholder="搜索商家、商品" />
+            </form>
+            <i class="icon icon-order margin-left-l"></i>
+        </header>
+        <div class="categories">
+            <div class="col-3 float-left" v-for="c in categories">
+                <div class="text-align-center">
+                    <img :src="c.src" />
+                </div>
+                <div class="text-align-center">{{c.name}}</div>
+            </div>
+        </div>
+        <h3 class="index-title">推荐商家</h3>
+        <section>
+            <section class="shop" v-for="s in shops">
+                <div class="shop-logo">
+                    <img :src="s.logo" />
+                </div>
+                <div class="shop-info">
+                    <section class="index-line">
+                        <h3>{{s.name}}</h3>
+                    </section>
+                    <section class="index-line start">
+                        <div class="index-rateWrap">
+                            <div class="rating">
+                                <template v-for="i in 5">
+                                    <img v-if="(i<=s.stars)" src="/images/icons/u18.png" />
+                                    <img v-else src="/images/icons/u61.png" />
+                                </template>
+                            </div>
+                            <span class="margin-left-m">月售{{s.sale}}单</span>
+                        </div>
+                    </section>
+                    <section class="index-line">
+                        <div class="index-moneylimit">
+                            <span>&yen;{{s.sendMoney}}起送</span>
+                            <span>配送费约&yen;{{s.deliverMoney}}</span>
+                            <span>满&yen;{{s.deliverMoneyFree}}免配送费</span>
+                        </div>
+                    </section>
+                    <div class="activities">
+                        <div class="activities-count">{{s.activities.length}}个活动</div>
+                        <div v-for="a in s.activities">
+                            <span class="activity-icon activity-icon-red" v-if="a.type===enumActivityType.full">满</span>
+                            <span class="activity-icon activity-icon-red" v-else-if="a.type===enumActivityType.off">折</span>
+                            <span class="activity-icon activity-icon-green" v-else-if="a.type===enumActivityType.new">新</span>
+                            <span class="activity-icon activity-icon-orange" v-else-if="a.type===enumActivityType.special">特</span>
+                            {{a.name}}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+    <script>
+
+        var vm = new Vue({
+            el: "#shop",
+            data: function () {
+                var enumActivityType = { "full": "full", "off": "off", "new": "new", "special": "special" };
+                var o = {
+                    enumActivityType: enumActivityType,
+                    categories: [
+                        { name: "美食", src: "/images/icons/u313.png" },
+                        { name: "甜品饮品", src: "/images/icons/u317.png" },
+                        { name: "简餐", src: "/images/icons/u321.png" },
+                        { name: "土豪推荐", src: "/images/icons/u325.png" },
+                        { name: "新店优惠", src: "/images/icons/u329.png" },
+                        { name: "商店超市", src: "/images/icons/u333.png" },
+                        { name: "包子粥店", src: "/images/icons/u337.png" },
+                        { name: "果蔬生鲜", src: "/images/icons/u341.png" }
+                    ],
+                    shops: [
+                        {
+                            name: "棒约翰比萨（昆明顺城店", logo: "/images/u249.png", stars: 5, sale: 560, sendMoney: 20, deliverMoney: 3, deliverMoneyFree: 70,
+                            activities: [
+                                { "type": enumActivityType.full, name: "满48减5" },
+                                { "type": enumActivityType.off, name: "芝士比萨标准装---品质比萨5折享" },
+                                { "type": enumActivityType.new, name: "满新用户下单立减17.0元减5" },
+                                { "type": enumActivityType.off, name: "海陆香鲜标准装---美味再现7折享" },
+                                { "type": enumActivityType.off, name: "就酱紫肉嘟嘟标准装---就酱紫6折享" },
+                                { "type": enumActivityType.special, name: "薯你最棒餐" },
+                                { "type": enumActivityType.special, name: "德式酸菜猪肘比萨，下单立减18元" },
+                                { "type": enumActivityType.special, name: "玫瑰心意餐，下单立减26元" }
+                            ]
+                        },
+                        {
+                            name: "棒约翰比萨（昆明顺城店", logo: "/images/u249.png", stars: 5, sale: 560, sendMoney: 20, deliverMoney: 3, deliverMoneyFree: 70,
+                            activities: [
+                                { "type": enumActivityType.full, name: "满48减5" },
+                                { "type": enumActivityType.full, name: "满48减5" }
+                            ]
+                        }
+                    ]
+                };
+                return o;
+            }
+        });
+    </script>
+</body>
+</html>
