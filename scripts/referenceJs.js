@@ -28,6 +28,7 @@
         "/scripts/vue-plugins/prompt/JavaScript.js",
         "/scripts/vue-plugins/actionsheet/JavaScript.js",
         "/scripts/vue-plugins/loading/JavaScript.js",
+        "/scripts/vue-plugins/toast/JavaScript.js",
         "/scripts/vue-plugins/loaderwindow/JavaScript.js",
         "/scripts/vue-plugins/loaderpage/JavaScript.js",
         "/scripts/vue-plugins/loaderside/JavaScript.js"

@@ -9,7 +9,8 @@
         "/css/dish.css",
         "/scripts/vue-plugins/loaderwindow/StyleSheet.css",
         "/scripts/vue-plugins/loaderpage/StyleSheet.css",
-        "/scripts/vue-plugins/loaderside/StyleSheet.css"
+        "/scripts/vue-plugins/loaderside/StyleSheet.css",
+        "/scripts/vue-plugins/toast/StyleSheet.css"
     ];
 
     for (var i = 0, item; item = cssList[i++];) {

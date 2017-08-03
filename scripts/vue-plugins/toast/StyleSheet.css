@@ -1,0 +1,15 @@
+﻿.toast {
+    display: inline-block;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: 80%;
+    max-width: 80%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: rgba(18, 18, 18, 0.7);
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+}
