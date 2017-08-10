@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title></title>
+    <script src="../../referenceCss.js"></script>
+    <script src="../../referenceJs.js"></script>
+    <script src="JavaScript.js"></script>
+</head>
+<body>
+    <div id="demo">
+        <group title="表单">
+            <city-county title="所在地区" v-model="areaCode" province-code="53"></city-county>
+            <button class="weui_btn weui_btn_primary" @click="$alert.open(areaCode)">获取值</button>
+            <button class="weui_btn weui_btn_primary" @click="areaCode='530103'">设置值</button>
+        </group>
+    </div>
+    <script>
+        Vue.use(vuxGroup);
+        var vm = new Vue({
+            el: "#demo",
+            components: {
+                "city-county": vuxCityCountyComponent,
+                "group": vuxGroup
+            },
+            data: {
+                areaCode: ""
+            }
+        });
+    </script>
+</body>
+</html>
