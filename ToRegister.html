@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html style="font-size:12px;">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title></title>
+    <script src="../scripts/referenceCss.js"></script>
+    <script src="../scripts/referenceJs.js"></script>
+</head>
+<body>
+    <div id="StudentForm">
+        <h3 class="infoTitle">填写个人信息</h3>
+        <div class="">
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label">姓名</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input text-align-right" type="text" placeholder="请输入" v-model="studentForm.Name" />
+                    </div>
+                </div>
+                <div class="weui_cell weui_cell_select weui_select_after">
+                    <div class="weui_cell_hd"><label class="weui_label">性别</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <select class="weui_select text-align-right" name="select1" v-model="studentForm.Gender">
+                        <option value="">请选择</option>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label">学校</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input text-align-right" type="text" placeholder="请输入" v-model="studentForm.School" />
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label">专业</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input text-align-right" type="text" placeholder="请输入" v-model="studentForm.Major" />
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label">联系电话</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input text-align-right" type="text" placeholder="请输入" v-model="studentForm.Phone" />
+                    </div>
+                </div>
+                <div class="weui_cell weui_cell_select weui_select_after">
+                    <div class="weui_cell_hd"><label class="weui_label">参与地区</label></div>
+                    <div class="weui_cell_bd weui_cell_primary text-align-right">
+                        <select class="weui_select" dir="rtl" name="select1" v-model="studentForm.FromCity">
+                        <option value="">请选择</option>
+                        <option value="昆明">昆明</option>
+                        <option value="曲靖">曲靖</option>
+                        <option value="玉溪">玉溪</option>
+                        <option value="保山">保山</option>
+                        <option value="昭通">昭通</option>
+                        <option value="丽江">丽江</option>
+                        <option value="普洱">普洱</option>
+                        <option value="临沧">临沧</option>
+                        <option value="楚雄">楚雄</option>
+                        <option value="红河">红河</option>
+                        <option value="文山">文山</option>
+                        <option value="西双版纳">西双版纳</option>
+                        <option value="大理">大理</option>
+                        <option value="德宏">德宏</option>
+                        <option value="怒江">怒江</option>
+                        <option value="迪庆">迪庆</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="textarea">
+                    <div class="textareaTitle">对我行互联网产品的认识、意见和建议</div>
+                    <div class="weui_cell_bd">
+                        <textarea class="weui_textarea" placeholder="请输入" rows="3" v-model="studentForm.Memo"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="bottomBtn">
+                <button class="weui_button weui_button_primary" @click="submit">确认</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.addEventListener("error",function(evt){
+            
+        });
+        var m = new Vue({
+            el: '#StudentForm',
+            data: {
+                studentForm: {
+                    Name: "",
+                    Memo: "",
+                    School: "",
+                    FromCity: "",
+                    Phone: "",
+                    Gender: "",
+                    Major: ""
+                }
+            },
+            methods: {
+                submit: function () {
+                    var me = this;
+                    me.$alert.open("点了报名");
+                    if (me.studentForm.Name === "") {
+                        me.$alert.open("请输入姓名！");
+                        return;
+                    } else if (me.studentForm.Name.length < 2) {
+                        me.$alert.open("姓名长度不能少于两位！");
+                        return;
+                    } else if (me.studentForm.Gender === "") {
+                        me.$alert.open("请选择性别！");
+                        return;
+                    } else if (me.studentForm.School === "") {
+                        me.$alert.open("请输入学校！");
+                        return;
+                    } else if (me.studentForm.School.length < 4) {
+                        me.$alert.open("学校名称长度不能少于四位！");
+                        return;
+                    } else if (me.studentForm.Major === "") {
+                        me.$alert.open("请输入专业！");
+                        return;
+                    } else if (me.studentForm.Major.length < 4) {
+                        me.$alert.open("专业名称长度不可少于四位");
+                        return;
+                    } else if (me.studentForm.Phone === "") {
+                        me.$alert.open("请输入联系电话！");
+                        return;
+                    } else if (me.studentForm.FromCity === "") {
+                        me.$alert.open("请选择参与地区！");
+                        return;
+                    } else {
+                        me.$confirm.open("报名信息一旦提交无法更改，是否确认提交？", function () {
+                            //me.$http.post("/ynfhrel/baoming/api/Student/Register", me.studentForm)
+                            me.$http.get("/data/data.json", me.studentForm)
+                                .then(function (response) {
+                                    me.$alert.open("报名成功！", function () { location = location });
+                                });
+                        });
+                    }
+                }
+            },
+            mounted: function () {
+                var me = this;
+            }
+        });
+    </script>
+</body>
+</html>
