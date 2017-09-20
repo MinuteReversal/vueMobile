@@ -1,5 +1,6 @@
 ﻿/**
  * author:zhy
+ * date  :20170919
  * 示例图如下
  * [ + 键 > | 值]
  * @class vuekeyvalue
@@ -36,7 +37,7 @@ var vueKeyvalue = {
     props: {
         "value": {
             type: Array,
-            default: []
+            default:function(){return [];}
         },
         /*键的类型：下拉，文本*/
         "keyType": {
@@ -66,7 +67,7 @@ var vueKeyvalue = {
         /*下拉键的可选项*/
         "keyOptions": {
             type: Array,
-            default: [{ name: "示例选项", value: "test" }]
+            default:function(){return  [{ name: "示例选项", value: "test" }];} 
         },
         /*空值替换文字*/
         "valuePlaceholder": {
@@ -85,7 +86,7 @@ var vueKeyvalue = {
         },
         "model": {
             type: Object,
-            default: { key: "", value: "" }
+            default: function(){return  { key: "", value: "" };}
         },
         "modelKeyField": {
             type: String,
@@ -121,7 +122,7 @@ var vueKeyvalue = {
         "pattern": function (val) {
             if (val === "integer")
                 return "[0-9]*"
-            return "";
+            return "*";
         }
     },
     methods: {

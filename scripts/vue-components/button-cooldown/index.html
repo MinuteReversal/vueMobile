@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link href="../../weui/dist/style/weui.min.css" rel="stylesheet" />
+    <link href="../../Font-Awesome-master/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../cropperjs-master/dist/cropper.min.css" rel="stylesheet" />
+    <script src="../../Polyfill/Object.assign.js"></script>
+    <script src="../../vue.js"></script>
+    <script src="../../vue-plugins/confirm/Javascript.js"></script>
+    <script src="../../vue-plugins/alert/Javascript.js"></script>
+    <script src="JavaScript.js"></script>
+</head>
+<body>
+    <div id="view">       
+        <button-cooldown @click="onClick" class="weui_btn weui_btn_primary">发送短信</button-cooldown>
+
+        <button-cooldown @click="onClick" disabled class="weui_btn weui_btn_primary">禁用状态</button-cooldown>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#view",
+            components: {
+                "button-cooldown": vueButtonCooldown
+            },
+            data: {
+            },
+            methods: {
+                onClick:function(){
+                    this.$alert.open("点击了发送短信");
+                }
+            }
+        });
+    </script>
+</body>
+</html>
