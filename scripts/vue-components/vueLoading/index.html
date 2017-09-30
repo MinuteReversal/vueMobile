@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../weui/dist/style/weui.min.css" rel="stylesheet" />
+    <script src="../../vue.js"></script>
+    <script src="JavaScript.js"></script>
+    <style>
+        .box {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background-color: #E9E9E9;
+            border: 1px dotted black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <div class="box" v-loading="loading1">
+            <button @click="loading1=!loading1">招唤对话框</button>
+        </div>
+        <div class="box" v-loading="loading2">
+            <button @click="loading2=!loading2">招唤对话框</button>
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                loading1: false,
+                loading2: false
+            }
+
+        });
+    </script>
+</body>
+
+</html>
